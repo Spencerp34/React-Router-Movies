@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Route, Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 
-import MovieCard from './Movies/MovieCard'
+import Movie from './Movies/Movie'
 import AllMovies from './Movies/MovieList'
 
 import SavedList from './Movies/SavedList';
@@ -22,7 +22,7 @@ export default function App () {
 
           // console.log(response)
 
-          setMovieList = response
+          setMovieList(response.data)
         })
         .catch(error => {
           console.error('Server Error', error);
@@ -36,20 +36,26 @@ export default function App () {
   };
 
   return (
-    <div className='App'>
-      { <SavedList list={[ /* This is stretch */]} />}
-
+    <>
       <div>
-        <Route exact path='/' >
-          <AllMovies
-            // {...props}
-            movies={movieList} 
-          />
-        </Route>
-        <Route path='/movies' >
-          <MovieCard />
-        </Route>
+        {/* <Link to='/'>Home</Link>
+        <Link to='/movies/:id'>Movies</Link> */}
       </div>
-    </div>
+      <div className='App'>
+        { <SavedList list={[ /* This is stretch */]} />}
+
+        <div>
+          <Route exact path='/' >
+            <AllMovies
+              // {...props}
+              movies={movieList} 
+            />
+          </Route>
+          <Route path='/movies/:id' >
+            <Movie movie={movieList} />
+          </Route>
+        </div>
+      </div>
+    </>
   );
 }
